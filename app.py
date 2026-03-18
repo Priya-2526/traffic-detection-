@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from flask import Flask, render_template, request
 import os
 import shutil
@@ -110,4 +110,4 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
->>>>>>> 2c9ce2edacf97c226fcd3b78d981c9722c548384
+
