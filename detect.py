@@ -159,7 +159,13 @@ def detect_traffic(image_path):
 
 
     # SAVE
-    output_path = image_path.replace("uploads", "uploads/result")
+  filename = os.path.basename(image_path)
+
+output_path = os.path.join(
+    os.path.dirname(image_path),
+    "result",
+    filename
+)
 
     cv2.imwrite(output_path, img)
 
