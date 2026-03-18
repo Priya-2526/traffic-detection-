@@ -3,17 +3,12 @@ import os
 import shutil
 from detect import detect_traffic
 
-
-# clear uploads folder each start
-shutil.rmtree("static/uploads", ignore_errors=True)
-os.makedirs("static/uploads/result", exist_ok=True)
-
-
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "static/uploads"
 RESULT_FOLDER = "static/uploads/result"
 
+# create folders safely
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULT_FOLDER, exist_ok=True)
 
@@ -32,15 +27,19 @@ def index():
 
         if file:
 
+            filename = file.filename
+
             filepath = os.path.join(
-                app.config["UPLOAD_FOLDER"], file.filename
+                app.config["UPLOAD_FOLDER"],
+                filename
             )
 
             file.save(filepath)
 
             result = detect_traffic(filepath)
 
-            image_path = result["output_image"]
+            if result:
+                image_path = result["output_image"]
 
     return render_template(
         "index.html",
