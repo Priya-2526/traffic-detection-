@@ -159,13 +159,13 @@ def detect_traffic(image_path):
 
 
     # SAVE
-  filename = os.path.basename(image_path)
+    filename = os.path.basename(image_path)
 
-output_path = os.path.join(
-    os.path.dirname(image_path),
-    "result",
-    filename
-)
+    output_path = os.path.join(
+        os.path.dirname(image_path),
+        "result",
+        filename
+    )
 
     cv2.imwrite(output_path, img)
 
