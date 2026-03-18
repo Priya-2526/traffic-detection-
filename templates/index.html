@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,4 +90,97 @@ Mini Project | AI Traffic Risk Detection using YOLO & Flask
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>AI Traffic Density Detection</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+    AI Traffic Density & Risk Detection
+</header>
+
+<div class="main-container">
+
+    <div class="card">
+
+        <h2>Upload Traffic Image</h2>
+
+        <form method="POST" enctype="multipart/form-data" onsubmit="startLoading()">
+
+            <input type="file" name="image" required>
+
+            <br><br>
+
+            <button type="submit">Detect</button>
+
+        </form>
+
+
+        <!-- Loader -->
+        <div id="loader" style="display:none;">
+
+            <p>Processing image...</p>
+
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+
+            <p>Time: <span id="timer">0</span> sec</p>
+
+        </div>
+
+
+        <!-- Result -->
+        {% if result %}
+
+        <div class="result">
+
+            <div class="box green">
+                Vehicles: {{ result.vehicles }}
+            </div>
+
+            <div class="box blue">
+                Traffic: {{ result.traffic }}
+            </div>
+
+            <div class="box orange">
+                Weather: {{ result.weather }}
+            </div>
+
+            <div class="box red">
+                Risk: {{ result.risk }}
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        {% if image_path %}
+
+        <img src="{{ image_path }}?{{ range(1,10000)|random }}" class="result-img">
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<footer>
+Mini Project | AI Traffic Risk Detection using YOLO & Flask
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+>>>>>>> 2c9ce2edacf97c226fcd3b78d981c9722c548384
 </html>

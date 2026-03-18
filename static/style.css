@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
@@ -93,4 +94,101 @@ footer {
     padding: 10px;
     text-align: center;
     background: black;
+=======
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(120deg, #1e3c72, #2a5298);
+    color: white;
+}
+
+header {
+    background: linear-gradient(90deg, #000428, #004e92);
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px black;
+    width: 600px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    background: #00c6ff;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #00ffcc;
+}
+
+.progress-bar {
+    width: 100%;
+    background: #333;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 10px;
+    width: 100%;
+    background: lime;
+    animation: loading 2s infinite;
+}
+
+@keyframes loading {
+    0% { width: 0 }
+    50% { width: 100% }
+    100% { width: 0 }
+}
+
+.result {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.box {
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.green { background: green }
+.blue { background: blue }
+.orange { background: orange }
+.red { background: red }
+
+.result-img {
+    margin-top: 20px;
+    max-width: 100%;
+    border-radius: 10px;
+    border: 3px solid white;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 10px;
+    text-align: center;
+    background: black;
+>>>>>>> 2c9ce2edacf97c226fcd3b78d981c9722c548384
 }
