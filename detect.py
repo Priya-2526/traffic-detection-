@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # -------- IMPORT LIBRARIES --------
 import cv2
 import numpy as np
@@ -186,7 +186,7 @@ def detect_traffic(image_path):
         "weather": weather,
         "risk": risk,
         "output_image": output_path
-=======
+
 # -------- IMPORT LIBRARIES --------
 import cv2
 import numpy as np
@@ -374,5 +374,4 @@ def detect_traffic(image_path):
         "weather": weather,
         "risk": risk,
         "output_image": output_path
->>>>>>> 2c9ce2edacf97c226fcd3b78d981c9722c548384
     }
