@@ -1,145 +1,63 @@
 import cv2
-import numpy as np
 import os
-
+import urllib.request
 
 base_dir = os.path.dirname(__file__)
 
 weights = os.path.join(base_dir, "yolov3-tiny.weights")
 cfg = os.path.join(base_dir, "yolov3-tiny.cfg")
-names_path = os.path.join(base_dir, "coco.names")
+names = os.path.join(base_dir, "coco.names")
 
 
-print("WEIGHTS:", weights)
-print("CFG:", cfg)
+def download_weights():
 
+    if not os.path.exists(weights):
+
+        print("Downloading weights...")
+
+        urllib.request.urlretrieve(
+            "https://pjreddie.com/media/files/yolov3-tiny.weights",
+            weights
+        )
+
+
+download_weights()
 
 net = cv2.dnn.readNet(weights, cfg)
 
-with open(names_path) as f:
-    classes = [line.strip() for line in f.readlines()]
-
-
-layer_names = net.getLayerNames()
-unconnected = net.getUnconnectedOutLayers()
-
-output_layers = []
-
-for i in unconnected:
-    try:
-        output_layers.append(layer_names[i[0] - 1])
-    except:
-        output_layers.append(layer_names[i - 1])
+with open(names, "r") as f:
+    classes = f.read().splitlines()
 
 
 def detect_traffic(image_path):
 
-    print("IMAGE:", image_path)
-
     img = cv2.imread(image_path)
 
-    if img is None:
-        print("Image not loaded")
-        return None
-
-    h, w, _ = img.shape
-
+    height, width, _ = img.shape
 
     blob = cv2.dnn.blobFromImage(
-        img,
-        1/255,
-        (416, 416),
-        swapRB=True
+        img, 1/255, (416, 416), swapRB=True, crop=False
     )
 
     net.setInput(blob)
 
+    layer_names = net.getLayerNames()
+    output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
+
     outputs = net.forward(output_layers)
 
-
-    boxes = []
-    confidences = []
-    class_ids = []
-
+    vehicle_count = 0
 
     for output in outputs:
+
         for detection in output:
 
             scores = detection[5:]
-            class_id = np.argmax(scores)
-            confidence = scores[class_id]
+            class_id = scores.argmax()
 
-            if confidence > 0.3:
+            label = classes[class_id]
 
-                cx = int(detection[0] * w)
-                cy = int(detection[1] * h)
+            if label in ["car", "bus", "truck", "motorbike"]:
+                vehicle_count += 1
 
-                bw = int(detection[2] * w)
-                bh = int(detection[3] * h)
-
-                x = int(cx - bw / 2)
-                y = int(cy - bh / 2)
-
-                boxes.append([x, y, bw, bh])
-                confidences.append(float(confidence))
-                class_ids.append(class_id)
-
-
-    indexes = cv2.dnn.NMSBoxes(
-        boxes,
-        confidences,
-        0.3,
-        0.4
-    )
-
-
-    vehicle_count = len(indexes)
-
-
-    for i in indexes:
-
-        i = i[0] if isinstance(i, (list, tuple, np.ndarray)) else i
-
-        x, y, bw, bh = boxes[i]
-
-        cv2.rectangle(
-            img,
-            (x, y),
-            (x + bw, y + bh),
-            (0, 255, 0),
-            2
-        )
-
-
-    if vehicle_count < 20:
-        traffic = "Low"
-    elif vehicle_count < 50:
-        traffic = "Medium"
-    else:
-        traffic = "High"
-
-
-    weather = "Clear"
-    risk = "MEDIUM RISK"
-
-
-    filename = os.path.basename(image_path)
-
-    output_path = os.path.join(
-        os.path.dirname(image_path),
-        "result",
-        filename
-    )
-
-    print("SAVE:", output_path)
-
-    cv2.imwrite(output_path, img)
-
-
-    return {
-        "vehicles": vehicle_count,
-        "traffic": traffic,
-        "weather": weather,
-        "risk": risk,
-        "output_image": output_path
-    }
+    return vehicle_count
