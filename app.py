@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import os
-import shutil
 from detect import detect_traffic
 
 app = Flask(__name__)
@@ -8,7 +7,6 @@ app = Flask(__name__)
 UPLOAD_FOLDER = "static/uploads"
 RESULT_FOLDER = "static/uploads/result"
 
-# create folders safely
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULT_FOLDER, exist_ok=True)
 
