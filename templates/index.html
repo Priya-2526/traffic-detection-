@@ -1,92 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 
-    <meta charset="UTF-8">
-    <title>AI Traffic Density Detection</title>
+    <title>Traffic Detection</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #111;
+            color: white;
+        }
+
+        form {
+            margin-top: 50px;
+        }
+
+        .box {
+            background: #222;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 10px;
+        }
+
+    </style>
 
 </head>
 
 <body>
 
-<header>
-    AI Traffic Density & Risk Detection
-</header>
+<h1>Traffic Detection System</h1>
 
-<div class="main-container">
+<div class="box">
 
-    <div class="card">
+<form method="POST" enctype="multipart/form-data">
 
-        <h2>Upload Traffic Image</h2>
+<input type="file" name="image" required>
 
-        <form method="POST" enctype="multipart/form-data" onsubmit="startLoading()">
+<br><br>
 
-            <input type="file" name="image" required>
+<button type="submit">Detect</button>
 
-            <br><br>
+</form>
 
-            <button type="submit">Detect</button>
+{% if result != None %}
 
-        </form>
+<h2>Vehicles detected: {{ result }}</h2>
 
-
-        <!-- Loader -->
-        <div id="loader" style="display:none;">
-
-            <p>Processing image...</p>
-
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-
-            <p>Time: <span id="timer">0</span> sec</p>
-
-        </div>
-
-
-        <!-- Result -->
-        {% if result %}
-
-        <div class="result">
-
-            <div class="box green">
-                Vehicles: {{ result.vehicles }}
-            </div>
-
-            <div class="box blue">
-                Traffic: {{ result.traffic }}
-            </div>
-
-            <div class="box orange">
-                Weather: {{ result.weather }}
-            </div>
-
-            <div class="box red">
-                Risk: {{ result.risk }}
-            </div>
-
-        </div>
-
-        {% endif %}
-
-
-        {% if image_path %}
-
-        <img src="{{ image_path }}?{{ range(1,10000)|random }}" class="result-img">
-
-        {% endif %}
-
-    </div>
+{% endif %}
 
 </div>
-
-<footer>
-Mini Project | AI Traffic Risk Detection using YOLO & Flask
-</footer>
-
-<script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 </html>
